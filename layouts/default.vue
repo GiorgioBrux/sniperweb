@@ -32,10 +32,40 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+
+      <v-spacer></v-spacer>
+      <v-tooltip bottom>
+        <template #activator="{ on, attrs }">
+          <v-btn icon>
+            <v-icon :color=hearbeatcolor v-bind="attrs"
+                    v-on="on">
+              fas fa-heartbeat
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>{{ hearbeatcolor==="red" ? "I can't connect to the backend :(" : "I'm connected to the backend! yay :)" }}</span>
+      </v-tooltip>
+      <v-toolbar-title class="red--text" v-text="hearbeatcolor==='red' ? 'Disconnected from backend' : ''" />
     </v-app-bar>
     <v-main>
       <v-container>
-        <Nuxt />
+        <Nuxt v-if="hearbeatcolor !== 'red'" />
+        <div v-else>
+          <v-card height="200">
+
+          <v-layout align-center justify-center column fill-height>
+            <v-flex row align-center>
+              <v-icon x-large color="white">
+                  fas fa-skull-crossbones
+              </v-icon>
+            </v-flex>
+            <v-flex row align-center>
+              <h2 class="red--text">You are either offline or the backend isn't working.</h2> <br>
+            </v-flex>
+          </v-layout>
+          </v-card>
+        </div>
+
       </v-container>
     </v-main>
     <v-footer
@@ -44,35 +74,63 @@
       :expand-on-hover="$vuetify.breakpoint.mdAndUp"
       :value="$vuetify.breakpoint.smAndDown? drawer : true"
     >
-      <span>&copy; {{ new Date().getFullYear() }} GiorgioBrux (WEB) | &copy; {{ new Date().getFullYear() }} slow (SNIPER)</span>
+      <span>&copy; {{ new Date().getFullYear() }} <a href="https://github.com/GiorgioBrux"
+                                                     target="_blank">GiorgioBrux</a> (WEB) | &copy; {{ new Date().getFullYear()
+        }} <a href="https://github.com/slow" target="_blank">slow</a> (SNIPER)</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+
+
 export default {
-  data () {
+  data() {
     return {
       clipped: false,
       drawer: false,
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Main',
-          to: '/'
+          icon: "fas fa-home",
+          title: "Main",
+          to: "/"
         },
         {
-          icon: 'mdi-console',
-          title: 'Console',
-          to: '/console'
+          icon: "fas fa-terminal",
+          title: "Terminal",
+          to: "/terminal"
+        },
+        {
+          icon: "fas fa-cogs",
+          title: "Settings",
+          to: "/settings"
+        },
+        {
+          icon: "fas fa-sync-alt",
+          title: "Update",
+          to: "/update"
         }
       ],
       miniVariant: true,
       right: false,
       rightDrawer: false,
-      title: 'Nitro Sniper Dashboard'
-    }
+      title: "Nitro Sniper Dashboard",
+      hearbeatcolor: "red"
+    };
+  },
+  mounted() {
+    global.home = this.$nuxtSocket({
+      name: "logs"
+    });
+
+    global.home.on("connect", () => {
+      this.hearbeatcolor = "green";
+    });
+
+    global.home.on("disconnect", () => {
+      this.heartbeatcolor = "red";
+    });
   }
-}
+};
 </script>
