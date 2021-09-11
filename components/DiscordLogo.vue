@@ -18,8 +18,22 @@ const { status } = require("../../src/const")
 export default {
   data() {
     return {
-      color: "#003aff"
+      color: "#ffffff"
     }
+  },
+  created() {
+    const home = this.$nuxtSocket({
+      name: "home",
+      reconnectionAttempts: Number.MAX_VALUE,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 2500,
+      reconnection: true,
+      teardown: false
+    });
+
+    home.on("change", (data) => {
+      this.changeState(data.status);
+    });
   },
   methods: {
     changeState(state){
@@ -31,8 +45,8 @@ export default {
         case status.RUNNING:
           color="#05fd00";
           break;
-        case status.SHUTTING_DOWN:
-          color="#ff4400";
+        case status.RESTARTING:
+          color="#00edff";
           break;
         case status.STOPPED:
           color="#ff0000";

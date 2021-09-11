@@ -110,6 +110,11 @@ export default {
           icon: "fas fa-sync-alt",
           title: "Update",
           to: "/update"
+        },
+        {
+          icon: "fas fa-info-circle",
+          title: "Info",
+          to: "/info"
         }
       ],
       miniVariant: true,
@@ -119,18 +124,27 @@ export default {
       hearbeatcolor: "red"
     };
   },
-  mounted() {
-    global.home = this.$nuxtSocket({
-      name: "logs"
+  created() {
+    const home = this.$nuxtSocket({
+      name: "home",
+      reconnectionAttempts: Number.MAX_VALUE,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 2500,
+      reconnection: true,
+      teardown: false
     });
 
-    global.home.on("connect", () => {
+    home.on("connect", () => {
+      console.log("Connected!")
       this.hearbeatcolor = "green";
     });
 
-    global.home.on("disconnect", () => {
-      this.heartbeatcolor = "red";
+
+   home.on("disconnect", () => {
+      console.log("Disconnect!")
+      this.hearbeatcolor = "red";
     });
-  }
+
+  },
 };
 </script>

@@ -51,7 +51,7 @@ export default {
       })
   },
   updated () {
-    this.$el.scrollTop = this.$el.scrollHeight
+    this.$el.lastElementChild.lastElementChild.lastElementChild.firstElementChild.lastElementChild.scrollIntoView({behavior: 'smooth'});
   }
 }
 </script>
