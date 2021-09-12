@@ -33,6 +33,7 @@ export default {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -41,6 +42,10 @@ export default {
     '@nuxtjs/axios',
     'nuxt-socket-io',
   ],
+
+  moment: {
+    plugins: ['moment-duration-format'],
+  },
 
   io: {
     sockets: [
