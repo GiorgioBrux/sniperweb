@@ -1,11 +1,14 @@
 <template>
-  <div class="container">
-    <h1 class="center"> Sniper </h1>
+  <v-card>
+    <div class="container">
+      <h1 class="center"> Sniper </h1>
 
-    <div class="row">
+      <div class="row">
         <v-console style="height: 60vh" :socket="socket"/>
       </div>
-  </div>
+    </div>
+  </v-card>
+
 </template>
 
 <script>

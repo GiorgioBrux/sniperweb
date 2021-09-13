@@ -1,9 +1,6 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="8" md="6">
-      <v-col cols="12" sm="8" md="6">
-
-      </v-col>
       <v-card>
         <v-col>
           <v-card flat>
@@ -32,7 +29,7 @@
 
             <v-card flat>
               <v-card-title class="justify-center">
-                Last nitro sniped: 1
+                Servers: {{ con.servers ? con.servers : "-"}}
               </v-card-title>
             </v-card>
           </v-col>
@@ -97,7 +94,8 @@ export default {
       con: {
         status: "???",
         uptime: null,
-        accounts: "???"
+        accounts: "???",
+        servers: "???",
       },
       homesocket: null,
       uptimemoment: null,
