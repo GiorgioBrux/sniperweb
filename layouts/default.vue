@@ -69,7 +69,7 @@
       </v-container>
     </v-main>
     <v-footer
-      :absolute="!fixed"
+      fixed
       app
       :expand-on-hover="$vuetify.breakpoint.mdAndUp"
       :value="$vuetify.breakpoint.smAndDown? drawer : true"

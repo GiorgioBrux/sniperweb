@@ -16,6 +16,10 @@
                 <h2>Thanks to the amazing people contributing to</h2>
                 <h4>discord.js</h4>
                 <h4>discord.js-light</h4>
+                <h4>express</h4>
+                <h4>chalk</h4>
+                <h4>json5</h4>
+                <h4>dotenv</h4>
                 <h4>nuxt.js</h4>
                 <h4>vue.js</h4>
                 <h4>vuetify</h4>
@@ -24,6 +28,7 @@
                 <h4>moment.js</h4>
                 <h4>moment-duration-format</h4>
                 <h4>eslint, stylelint, commitlint, prettier, husky</h4>
+                <h2>who made this possible.</h2>
               </div>
             </v-card>
           </v-col>
