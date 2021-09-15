@@ -234,10 +234,12 @@
                           >
                           </v-switch>
                           <v-text-field
-                          v-if="settings.giveaway.dm"
-                          v-model="settings.giveaway.dmMessage"
-                          label="Message to DM the host"
-                          counter="4000"> </v-text-field>
+                            v-if="settings.giveaway.dm"
+                            v-model="settings.giveaway.dmMessage"
+                            label="Message to DM the host"
+                            counter="4000"
+                          >
+                          </v-text-field>
                         </div>
                         <v-divider></v-divider>
                         <br />
@@ -249,8 +251,9 @@
                         ></v-switch>
                         <div v-if="settings.invite.enabled">
                           <v-switch
-                          v-model="settings.invite.onlyAlts"
-                          label="Only alts?">
+                            v-model="settings.invite.onlyAlts"
+                            label="Only alts?"
+                          >
                           </v-switch>
                           <v-slider
                             v-model="settings.invite.cooldown"
@@ -274,13 +277,17 @@
                             max="30"
                           >
                           </v-slider>
-                          <br>
+                          <br />
                           <v-slider
                             v-model="settings.invite.delay.min"
                             label="Minimum delay to join server (seconds)"
                             thumb-label
                             :thumb-size="30"
-                            :rules="[values => values < settings.invite.delay.max || 'Minimum cooldown can\'t be higher than maximum']"
+                            :rules="[
+                              (values) =>
+                                values < settings.invite.delay.max ||
+                                'Minimum cooldown can\'t be higher than maximum',
+                            ]"
                             min="2"
                             max="199"
                           >
@@ -290,19 +297,27 @@
                             label="Maximum delay to join server (seconds)"
                             thumb-label
                             :thumb-size="30"
-                            :rules="[values => values > settings.invite.delay.min || 'Maximum cooldown can\'t be lower than minimum']"
+                            :rules="[
+                              (values) =>
+                                values > settings.invite.delay.min ||
+                                'Maximum cooldown can\'t be lower than minimum',
+                            ]"
                             min="3"
                             max="200"
                           >
                           </v-slider>
-                          <br>
+                          <br />
                           <v-slider
                             v-model="settings.invite.members.min"
                             label="Minimum members to join invite"
                             thumb-label
                             append-icon="fas fa-users"
                             :thumb-size="30"
-                            :rules="[values => values < settings.invite.members.max || 'Minimum members can\'t be higher than maximum']"
+                            :rules="[
+                              (values) =>
+                                values < settings.invite.members.max ||
+                                'Minimum members can\'t be higher than maximum',
+                            ]"
                             min="1"
                             max="700000"
                           >
@@ -313,7 +328,11 @@
                             append-icon="fas fa-users"
                             thumb-label
                             :thumb-size="30"
-                            :rules="[values => values > settings.invite.members.min || 'Maximum members can\'t be lower than minimum']"
+                            :rules="[
+                              (values) =>
+                                values > settings.invite.members.min ||
+                                'Maximum members can\'t be lower than minimum',
+                            ]"
                             min="1"
                             max="700000"
                           >
@@ -545,7 +564,7 @@
 </template>
 
 <script>
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default {
   data() {
@@ -667,14 +686,14 @@ export default {
   },
   watch: {
     async loader() {
-      const l = this.loader;
-      this[l] = !this[l];
+      const l = this.loader
+      this[l] = !this[l]
 
-      await this.savesettings();
-      await delay(2000);
+      await this.savesettings()
+      await delay(2000)
 
-      this[l] = false;
-      this.loader = null;
+      this[l] = false
+      this.loader = null
     },
     'settings.webhook.enabled': {
       handler() {
@@ -696,10 +715,10 @@ export default {
       teardown: false,
     })
 
-    this.updatesetting.emit("settingrequest");
+    this.updatesetting.emit('settingrequest')
 
     this.updatesetting.on('settingback', (data) => {
-      this.settings = data;
+      this.settings = data
     })
   },
   methods: {
@@ -707,7 +726,10 @@ export default {
       const readyListener = async () => {
         if (this.needupdate.controller !== null) {
           return 1
-        } else await readyListener()
+        } else {
+          await delay(250)
+          await readyListener()
+        }
       }
       await readyListener()
     },
@@ -719,9 +741,9 @@ export default {
       this.settings.tokens.alts.push('')
       console.log(this.settings.tokens.alts)
     },
-    async savesettings(){
-      await this.updatesetting.emit("settingupdate", this.settings);
-    }
+    async savesettings() {
+      await this.updatesetting.emit('settingupdate', this.settings)
+    },
   },
 }
 </script>
